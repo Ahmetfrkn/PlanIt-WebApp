@@ -20,13 +20,13 @@ export default function LoginPage() {
     });
 
     if (error) {
-      setMessage(error.message);
+      setMessage(error.message); // Burada Supabase hatasını net görürüz
       setLoading(false);
       return;
     }
 
-    // Başarılı: direkt dashboard'a gönder
-    setMessage('Logged in, redirecting...');
+    // Hata yoksa -> kesin Dashboard'a gönder
+    setMessage('Login successful. Redirecting to your dashboard...');
     window.location.href = '/dashboard';
   }
 
