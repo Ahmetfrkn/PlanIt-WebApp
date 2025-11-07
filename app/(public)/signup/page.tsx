@@ -24,55 +24,66 @@ export default function SignupPage() {
     } else {
       setMessage('Check your email to confirm your account, then you can log in.');
     }
+
     setLoading(false);
   }
 
   return (
-    <div className="max-w-md mx-auto mt-10 bg-white shadow-sm border rounded-xl p-6">
-      <h1 className="text-xl font-semibold mb-4 text-center">Create your PlanIt account</h1>
-      <form onSubmit={handleSignup} className="space-y-3">
-        <div>
-          <label className="block text-sm mb-1">Email</label>
-          <input
-            type="email"
-            required
-            className="w-full border rounded px-3 py-2 text-sm"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@student.edu"
-          />
-        </div>
-        <div>
-          <label className="block text-sm mb-1">Password</label>
-          <input
-            type="password"
-            required
-            minLength={6}
-            className="w-full border rounded px-3 py-2 text-sm"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="At least 6 characters"
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-slate-900 text-white py-2 rounded text-sm"
-        >
-          {loading ? 'Creating account...' : 'Sign up'}
-        </button>
-      </form>
-      {message && (
-        <p className="mt-3 text-xs text-center text-slate-600">
-          {message}
+    <div className="min-h-[50vh] flex items-center justify-center">
+      <div className="w-full max-w-md bg-slate-900/90 border border-emerald-500/30 rounded-2xl p-6 shadow-xl">
+        <h1 className="text-xl font-semibold mb-2 text-center text-emerald-300">
+          Create your PlanIt account
+        </h1>
+        <p className="text-xs text-slate-400 text-center mb-4">
+          Simple registration using Supabase Auth.
         </p>
-      )}
-      <p className="mt-4 text-xs text-center text-slate-500">
-        Already have an account?{' '}
-        <a href="/login" className="underline">
-          Login
-        </a>
-      </p>
+
+        <form onSubmit={handleSignup} className="space-y-3">
+          <div>
+            <label className="block text-xs mb-1 text-emerald-200">Email</label>
+            <input
+              type="email"
+              required
+              className="w-full bg-emerald-50 text-slate-900 border border-emerald-400/70 rounded-lg px-3 py-2 text-xs placeholder:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/70"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@student.edu"
+            />
+          </div>
+          <div>
+            <label className="block text-xs mb-1 text-emerald-200">Password</label>
+            <input
+              type="password"
+              required
+              minLength={6}
+              className="w-full bg-emerald-50 text-slate-900 border border-emerald-400/70 rounded-lg px-3 py-2 text-xs placeholder:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/70"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="At least 6 characters"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full mt-2 py-2 rounded-lg bg-emerald-400 hover:bg-emerald-300 text-slate-900 text-xs font-semibold transition disabled:opacity-60"
+          >
+            {loading ? 'Creating account...' : 'Sign up'}
+          </button>
+        </form>
+
+        {message && (
+          <p className="mt-3 text-[10px] text-center text-slate-300">
+            {message}
+          </p>
+        )}
+
+        <p className="mt-4 text-[10px] text-center text-slate-300">
+          Already registered?{' '}
+          <a href="/login" className="text-emerald-300 underline">
+            Login
+          </a>
+        </p>
+      </div>
     </div>
   );
 }
