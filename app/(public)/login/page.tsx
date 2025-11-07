@@ -1,6 +1,6 @@
 // app/(public)/login/page.tsx
 'use client';
-import { supabase } from '@/lib/supabaseClient';
+import { supabase } from '../../../lib/supabaseClient';
 
 export default function Login() {
   async function signIn() {
