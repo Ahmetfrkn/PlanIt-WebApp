@@ -14,18 +14,20 @@ export default function LoginPage() {
     setLoading(true);
     setMessage(null);
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
       setMessage(error.message);
-    } else if (data.session) {
-      window.location.href = '/dashboard';
+      setLoading(false);
+      return;
     }
 
-    setLoading(false);
+    // Başarılı: direkt dashboard'a gönder
+    setMessage('Logged in, redirecting...');
+    window.location.href = '/dashboard';
   }
 
   return (
@@ -71,7 +73,7 @@ export default function LoginPage() {
         </form>
 
         {message && (
-          <p className="mt-3 text-[10px] text-center text-red-400">
+          <p className="mt-3 text-[10px] text-center text-emerald-300">
             {message}
           </p>
         )}
