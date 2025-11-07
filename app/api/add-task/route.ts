@@ -1,30 +1,29 @@
-// app/api/add-task/route.ts
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 
 export async function POST(request: Request) {
   const formData = await request.formData();
   const title = (formData.get('title') as string)?.trim();
 
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createRouteHandlerClient({ cookies });
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    // Route handlers'ta redirect için mutlak URL ya da new URL kullan
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  if (title) {
-    const { error } = await supabase.from('tasks').insert({
-      title,
-      user_id: user.id,
-    });
-    if (error) console.error(error);
+  if (!title) {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
   }
+
+  await supabase.from('tasks').insert({
+    title,
+    user_id: user.id,
+  });
 
   return NextResponse.redirect(new URL('/dashboard', request.url));
 }
