@@ -1,16 +1,23 @@
+'use client';
+import { supabase } from '@/lib/supabaseClient';
+
 export default function Login() {
+  async function signIn() {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    });
+    if (error) alert(error.message);
+  }
+
   return (
-    <main className="p-8">
-      <h1 className="text-2xl font-bold">Login</h1>
-      <p className="mt-2 text-gray-600">
-        This is the login page. We will connect real authentication later.
-      </p>
-      <a
-        className="inline-block mt-6 px-4 py-2 border rounded"
-        href="/dashboard"
+    <main className="p-8 text-center">
+      <h1 className="text-2xl font-bold mb-6">Login to PlanIt</h1>
+      <button
+        className="px-4 py-2 border rounded hover:bg-gray-100"
+        onClick={signIn}
       >
-        Go to Dashboard (placeholder)
-      </a>
+        Sign in with Google
+      </button>
     </main>
   );
 }
