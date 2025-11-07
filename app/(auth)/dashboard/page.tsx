@@ -1,10 +1,8 @@
-// app/(auth)/dashboard/page.tsx
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
-export default async function Dashboard() {
-  // Supabase server-side client (Next.js App Router için önerilen yöntem)
+export default async function DashboardPage() {
   const supabase = createServerComponentClient({ cookies });
 
   const {
@@ -12,50 +10,61 @@ export default async function Dashboard() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/login'); // server component'ta Response dönmeye çalışma; redirect helper kullan
+    redirect('/login');
   }
 
-  // tasks tablosundan verileri çek
-  const { data: tasks, error } = await supabase
+  const { data: tasks } = await supabase
     .from('tasks')
     .select('*')
-    .order('due_date', { ascending: true });
-
-  if (error) {
-    // production'da sessiz kalmak daha iyi ama basitçe fallback verelim
-    console.error(error);
-  }
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
 
   return (
-    <main className="p-8">
-      <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
-      <p className="mb-4 text-gray-600">Welcome{user?.email ? `, ${user.email}` : ''}</p>
+    <section className="mt-6 space-y-4">
+      <h1 className="text-2xl font-bold">Dashboard</h1>
+      <p className="text-slate-600 text-sm">
+        Logged in as <span className="font-medium">{user.email}</span>
+      </p>
 
-      {!tasks || tasks.length === 0 ? (
-        <p className="text-gray-600">No tasks yet.</p>
-      ) : (
-        <ul className="space-y-2">
-          {tasks.map((t: any) => (
-            <li key={t.id} className="border p-3 rounded">
-              <div className="font-medium">{t.title}</div>
-              <div className="text-sm text-gray-500">{t.status ?? 'todo'}</div>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <form className="mt-6" action="/api/add-task" method="post">
+      <form
+        className="flex gap-2 mt-4"
+        action="/api/add-task"
+        method="post"
+      >
         <input
           type="text"
           name="title"
-          placeholder="New task title"
-          className="border p-2 mr-2 rounded"
           required
+          placeholder="Add a new task..."
+          className="flex-1 border rounded px-3 py-2 text-sm"
         />
-        <button type="submit" className="border px-4 py-2 rounded">
+        <button
+          type="submit"
+          className="px-4 py-2 rounded bg-slate-900 text-white text-sm"
+        >
           Add
         </button>
       </form>
-    </main>
+
+      <div className="mt-4 space-y-2">
+        {!tasks || tasks.length === 0 ? (
+          <p className="text-slate-500 text-sm">No tasks yet. Create your first one above.</p>
+        ) : (
+          tasks.map((t: any) => (
+            <div
+              key={t.id}
+              className="border bg-white rounded-lg px-3 py-2 flex items-center justify-between text-sm"
+            >
+              <div>
+                <div className="font-medium">{t.title}</div>
+                <div className="text-xs text-slate-500">
+                  {t.status || 'todo'} • {new Date(t.created_at).toLocaleString()}
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </section>
   );
 }
