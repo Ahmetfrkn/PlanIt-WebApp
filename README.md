@@ -1,15 +1,30 @@
-# PlanIt-WebApp
-WebApp Project 
+# PlanIt WebApp
 
-Minimal Next.js (App Router) + Tailwind başlangıcı.  
-Amaç: Ekip proje görevlerini basitçe planlamak ve takip etmek.
+PlanIt is a simple task and project management web application built with Next.js and Tailwind CSS.
 
-## Yapı
-- `app/` — sayfalar (App Router)
-- `pages/api/` — basit API örneği (`/api/health`)
-- `styles/` — Tailwind `globals.css`
+## 🚀 Features
 
-## Sonraki adımlar
-- Supabase/PostgreSQL şeması
-- Auth (Supabase)
-- Projects/Tasks CRUD
+- Project planning interface
+- Task tracking structure
+- Modern responsive UI
+- Basic API route example
+- Deployed with Vercel
+
+## 🛠 Technologies Used
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- Vercel
+
+## 🌐 Live Demo
+
+Add your Vercel link here.
+
+## 📌 Project Purpose
+
+This project was created to practice modern frontend development, component-based architecture, routing, styling, and deployment.
+
+## 👨‍💻 Author
+
+Ahmet Furkan
